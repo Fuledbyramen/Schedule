@@ -7,11 +7,14 @@ import java.util.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.util.regex.*;
+
 public class ReadExcelLoop 
 {
 
 	public static void main(String[] args) throws Exception 
 	{
+		
 		
 		//location of excel file, import 'File' (java.io) class, specifying excel file sheet location
 		File src = new File("C:\\Users\\w7260216\\Desktop\\Java Lab\\Schedule\\Schedule.xlsx");
@@ -32,12 +35,22 @@ public class ReadExcelLoop
 		//test
 		System.out.println("Total rows is: " + rowcount);
 		
+		//regex
+		String[] names = new String[rowcount];
+		Pattern p = Pattern.compile(", ([A-Za-z]+)");
+		
 		//for loop, starting at row 2 (row 0 is empty)
 		for(int i = 2; i <= rowcount; i++){
 			
 			String data0 = sheet1.getRow(i).getCell(0).getStringCellValue();
 			
 			System.out.println("Test data from excel is " + data0);
+			Matcher m = p.matcher(data0);
+			m.find();
+			names[i-2] = m.group(1);
+		}
+		for (String name : names){
+			System.out.println(name + " ");
 		}
 		
 		
